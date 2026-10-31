@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#050b09">
+<title>SUMP CITY — a Metroidvania beneath New York</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2307130e'/%3E%3Cpath d='M16 18h32v8H26v6h18v16H16v-8h22v-6H16z' fill='%23b9f23c'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="stage">
+  <div id="viewport">
+    <canvas id="game" width="960" height="540" aria-label="Sump City game"></canvas>
+    <div id="fx" aria-hidden="true"></div>
+
+    <!-- Title -->
+    <section id="titleScreen" class="screen">
+      <div class="title-top">
+        <span>NYC</span><span class="dot"></span><span>BUREAU OF SEWERS</span><span class="dot"></span><span>EST. 1849</span>
+      </div>
+      <div class="title-main">
+        <div class="title-kicker">A Metroidvania beneath the city</div>
+        <h1>SUMP<span>CITY</span></h1>
+        <p class="tagline">There’s a whole city under the city.</p>
+        <div class="title-actions">
+          <button id="startBtn" class="btn primary">Descend</button>
+          <button id="continueBtn" class="btn ghost hidden">Continue</button>
+        </div>
+        <div class="title-meta" id="titleMeta">Six tokens. Three relics. One very large reptile.</div>
+      </div>
+      <div class="title-controls">
+        <div><b>A D</b> move</div><div><b>SPACE</b> jump</div><div><b>J</b> strike</div>
+        <div><b>SHIFT</b> dash</div><div><b>W</b> interact</div><div><b>M</b> map</div>
+      </div>
+      <button id="soundBtn" class="icon-btn" title="Toggle sound" aria-label="Toggle sound">♪</button>
+    </section>
+
+    <!-- Pause -->
+    <section id="pauseScreen" class="screen hidden">
+      <div class="panel pause-panel">
+        <div class="panel-kicker">Sewer Maintenance Terminal</div>
+        <h2>PAUSED</h2>
+        <div class="pause-grid">
+          <div class="pause-col">
+            <h3>Relics</h3>
+            <ul id="pauseRelics" class="relic-list"></ul>
+            <h3>Records</h3>
+            <div class="stat-line"><span>Tokens</span><b id="pauseTokens">0 / 6</b></div>
+            <div class="stat-line"><span>Rooms charted</span><b id="pauseRooms">0 / 8</b></div>
+          </div>
+          <div class="pause-col">
+            <h3>Objective</h3>
+            <p id="pauseObjective" class="objective"></p>
+            <h3>Controls</h3>
+            <p class="controls-copy">A / D move · Space jump · J strike<br>Shift dash · W interact · M map<br>Wall-jump by jumping while pressed to a wall.</p>
+          </div>
+        </div>
+        <div class="panel-actions">
+          <button id="resumeBtn" class="btn primary">Resume</button>
+          <button id="mapBtn" class="btn ghost">Chart</button>
+          <button id="quitBtn" class="btn ghost">Title</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map -->
+    <section id="mapScreen" class="screen hidden">
+      <div class="panel map-panel">
+        <div class="map-head">
+          <div>
+            <div class="panel-kicker">Bureau of Sewers · Survey 1987</div>
+            <h2>THE UNDERLINE</h2>
+          </div>
+          <div class="map-legend">
+            <span><i class="sw current"></i>You</span>
+            <span><i class="sw seen"></i>Charted</span>
+            <span><i class="sw dark"></i>Unknown</span>
+          </div>
+        </div>
+        <canvas id="mapCanvas" width="820" height="300"></canvas>
+        <div class="map-foot">
+          <p id="mapObjective" class="objective"></p>
+          <div class="map-counts"><span id="mapTokens">Tokens 0/6</span><span id="mapAbilities">Relics 0/3</span></div>
+        </div>
+        <div class="panel-actions">
+          <button id="mapCloseBtn" class="btn primary">Back</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Note -->
+    <section id="noteScreen" class="screen hidden">
+      <div class="paper">
+        <div class="paper-head"><span id="noteTag">FIELD NOTE</span><span>NYC·BS</span></div>
+        <h2 id="noteTitle">Untitled</h2>
+        <p id="noteBody"></p>
+        <button id="noteCloseBtn" class="btn ghost small">Fold it away</button>
+      </div>
+    </section>
+
+    <!-- Death -->
+    <section id="deadScreen" class="screen hidden">
+      <div class="dead-wrap">
+        <div class="dead-kicker">The current takes you</div>
+        <h2>WASHED OUT</h2>
+        <p id="deadLine">The tunnels always give you back.</p>
+        <button id="respawnBtn" class="btn primary">Rise at the last bench</button>
+      </div>
+    </section>
+
+    <!-- Ending -->
+    <section id="endScreen" class="screen hidden">
+      <div class="end-wrap">
+        <div class="panel-kicker">Bureau of Sewers · Incident Closed</div>
+        <h2>THE CITY<br><span>SLEEPS</span></h2>
+        <p class="end-copy">The Crocodile King is dead. Somewhere above, eight million people flush their toilets and never think about you. That’s the job.</p>
+        <div class="end-stats" id="endStats"></div>
+        <button id="againBtn" class="btn primary">Descend again</button>
+      </div>
+    </section>
+
+    <!-- Touch controls -->
+    <div id="touchControls" aria-hidden="true">
+      <div class="touch-cluster left">
+        <button class="tbtn dir" data-key="left" aria-label="Move left">◀</button>
+        <button class="tbtn dir" data-key="right" aria-label="Move right">▶</button>
+      </div>
+      <div class="touch-cluster right">
+        <button class="tbtn small" data-key="up" aria-label="Interact">▲</button>
+        <button class="tbtn small" data-key="dash" aria-label="Dash">DASH</button>
+        <button class="tbtn" data-key="attack" aria-label="Strike">HIT</button>
+        <button class="tbtn jump" data-key="jump" aria-label="Jump">JUMP</button>
+      </div>
+      <div class="touch-menu">
+        <button id="touchMap" class="tbtn tiny" aria-label="Map">MAP</button>
+        <button id="touchPause" class="tbtn tiny" aria-label="Pause">II</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="rotateHint">Turn the phone sideways for a wider view of the tunnels.</div>
+<script type="module" src="js/game.js"></script>
+</body>
+</html>
