@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+  <meta name="theme-color" content="#030708" />
+  <meta name="description" content="SILT — a handcrafted Metroidvania beneath New York. The pumps are dead and the water is rising." />
+  <title>SILT — A Metroidvania Beneath New York</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="stage">
+    <canvas id="game" width="960" height="540" aria-label="SILT game viewport"></canvas>
+  </div>
+
+  <div id="title" class="overlay">
+    <div class="title-noise"></div>
+    <div class="title-drips"></div>
+    <div class="title-content">
+      <div class="kicker"><span class="rule"></span>A METROIDVANIA BENEATH NEW YORK<span class="rule"></span></div>
+      <h1 class="logo">SILT<span>.</span></h1>
+      <p class="tagline">The pumps stopped six days ago.<br /><em>The water is rising.</em></p>
+      <div class="title-actions">
+        <button id="btn-new" class="btn primary">BEGIN DESCENT</button>
+        <button id="btn-continue" class="btn hidden">CONTINUE</button>
+        <button id="btn-help" class="btn ghost">CONTROLS</button>
+      </div>
+      <div id="title-help" class="help hidden">
+        <div><b>MOVE</b><span>A / D · ← →</span></div>
+        <div><b>JUMP</b><span>SPACE · W · ↑</span></div>
+        <div><b>SWING</b><span>X · J</span></div>
+        <div><b>DASH</b><span>C · K · SHIFT</span></div>
+        <div><b>WALL JUMP</b><span>HOLD WALL + JUMP</span></div>
+        <div><b>PAUSE / MAP</b><span>ESC · M</span></div>
+      </div>
+      <div class="title-meta">AUTOSAVE AT BEACONS <span>·</span> HEADPHONES RECOMMENDED <span>·</span> 7 SECTORS</div>
+    </div>
+    <div class="title-footer">NIA REYES / TUNNEL INSPECTOR / BADGE 114</div>
+  </div>
+
+  <div id="pause" class="overlay hidden">
+    <div class="panel pause-panel">
+      <div class="kicker"><span class="rule"></span>MAINTENANCE HOLD<span class="rule"></span></div>
+      <h2>PAUSED</h2>
+      <p id="pause-objective" class="objective-line"></p>
+      <div id="pause-map"></div>
+      <div class="pause-actions">
+        <button id="btn-resume" class="btn primary">RESUME</button>
+        <button id="btn-pause-help" class="btn ghost">CONTROLS</button>
+        <button id="btn-mute" class="btn ghost">SOUND: ON</button>
+        <button id="btn-abandon" class="btn danger">ABANDON RUN</button>
+      </div>
+      <div id="pause-help" class="help hidden">
+        <div><b>MOVE</b><span>A / D · ← →</span></div>
+        <div><b>JUMP</b><span>SPACE · W · ↑</span></div>
+        <div><b>SWING</b><span>X · J</span></div>
+        <div><b>DASH</b><span>C · K · SHIFT</span></div>
+        <div><b>WALL JUMP</b><span>HOLD WALL + JUMP</span></div>
+        <div><b>CLOSE</b><span>ESC · M</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="ending" class="overlay hidden">
+    <div class="panel ending-panel">
+      <div class="kicker"><span class="rule"></span>OUTFLOW RESTORED<span class="rule"></span></div>
+      <h2>THE WATER<br /><span>FALLS</span></h2>
+      <p class="ending-copy">The Gutter King sinks into the dark. Somewhere above, ten thousand faucets begin to run again. Nia climbs toward daylight with a city's worth of silence behind her.</p>
+      <div id="ending-stats" class="ending-stats"></div>
+      <div class="title-actions">
+        <button id="btn-again" class="btn primary">DESCEND AGAIN</button>
+      </div>
+      <div class="title-meta">SILT · A METROIDVANIA BENEATH NEW YORK</div>
+    </div>
+  </div>
+
+  <div id="touch" class="touch" aria-hidden="true">
+    <div class="touch-move">
+      <button class="touch-btn move" data-action="left" aria-label="Move left">◀</button>
+      <button class="touch-btn move" data-action="right" aria-label="Move right">▶</button>
+    </div>
+    <div class="touch-actions">
+      <button class="touch-btn act small" data-action="attack" aria-label="Attack">HIT</button>
+      <button class="touch-btn act small" data-action="dash" aria-label="Dash">DASH</button>
+      <button class="touch-btn act big" data-action="jump" aria-label="Jump">JUMP</button>
+    </div>
+    <button id="touch-pause" class="touch-pause" aria-label="Pause">Ⅱ</button>
+  </div>
+
+  <div id="rotate-hint">ROTATE FOR A WIDER VIEW</div>
+
+  <script type="module" src="src/game.js"></script>
+</body>
+</html>
